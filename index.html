@@ -8,7 +8,7 @@
   <!-- Telegram Web App JS SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- Google Fonts: Prompt -->
@@ -16,10 +16,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Phosphor Icons -->
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Firebase Compat Scripts (v10.12.0) - Ideal for static GitHub Pages single-file apps -->
+  <!-- Firebase Compat CDN (v10.12.0) - Run directly on GitHub Pages without bundler -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
@@ -67,14 +67,14 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans pb-20">
+<body class="min-h-screen flex flex-col font-sans pb-24">
 
   <!-- TOP APP BAR -->
   <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3">
     <div class="max-w-md mx-auto flex items-center justify-between">
       <div class="flex items-center gap-2.5">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-500 to-amber-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
-          <i class="ph-bold ph-fork-knife text-xl"></i>
+          <i data-lucide="utensils" class="w-5 h-5"></i>
         </div>
         <div>
           <div class="flex items-center gap-1.5">
@@ -82,7 +82,7 @@
             <span class="text-[10px] bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-bold">1 คน : 1 อย่าง</span>
           </div>
           <div class="flex items-center gap-1.5 mt-0.5">
-            <span id="dbSourceBadge" class="text-[9px] px-1.5 py-0.2 rounded-full font-semibold bg-slate-100 text-slate-500 flex items-center gap-1">
+            <span id="dbSourceBadge" class="text-[9px] px-2 py-0.5 rounded-full font-semibold bg-slate-100 text-slate-500 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
               กำลังเชื่อมต่อ...
             </span>
@@ -93,17 +93,17 @@
       <div class="flex items-center gap-1.5">
         <!-- Add Menu Button -->
         <button onclick="openMenuEditorModal()" class="px-2.5 py-1.5 text-brand-600 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-xl text-xs font-semibold flex items-center gap-1 transition active:scale-95" title="เพิ่มเมนูของร้าน">
-          <i class="ph-bold ph-plus-circle text-sm"></i>
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
           <span>เพิ่มเมนู</span>
         </button>
         <!-- Summary Dashboard Button -->
-        <button onclick="toggleSummaryModal(true)" class="p-2 text-slate-700 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 rounded-xl text-lg transition relative" title="สรุปส่งร้านค้า">
-          <i class="ph-bold ph-receipt"></i>
+        <button onclick="toggleSummaryModal(true)" class="p-2 text-slate-700 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 rounded-xl transition relative" title="สรุปส่งร้านค้า">
+          <i data-lucide="receipt" class="w-5 h-5"></i>
           <span id="allOrdersBadge" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full min-w-4 text-center">0</span>
         </button>
-        <!-- Settings (Round Status + Firebase Config) -->
-        <button onclick="toggleAdminPanel(true)" class="p-2 text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl text-lg transition" title="ตั้งค่ารอบ / ฐานข้อมูล">
-          <i class="ph-bold ph-gear-six"></i>
+        <!-- Settings (Round Status + Clear DB + Firebase Config) -->
+        <button onclick="toggleAdminPanel(true)" class="p-2 text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition" title="ตั้งค่ารอบ / ฐานข้อมูล">
+          <i data-lucide="settings" class="w-5 h-5"></i>
         </button>
       </div>
     </div>
@@ -116,14 +116,14 @@
       <div class="flex items-start justify-between">
         <div class="flex-1 pr-2">
           <div class="text-[10px] text-brand-300 font-semibold uppercase tracking-wider flex items-center gap-1">
-            <i class="ph-fill ph-storefront"></i>
+            <i data-lucide="store" class="w-3.5 h-3.5"></i>
             ร้านประจำรอบนี้
           </div>
           <div id="restaurantNameDisplay" class="text-base font-bold text-white mt-0.5 leading-snug">กำลังโหลดข้อมูลร้าน...</div>
           <div id="restaurantNoteDisplay" class="text-[11px] text-slate-300 mt-0.5">สั่งรวมร้านนี้ร้านเดียว ส่งพร้อมกัน</div>
         </div>
-        <button onclick="openEditRestaurantModal()" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs text-brand-200 flex items-center gap-1 transition" title="เปลี่ยนชื่อร้าน">
-          <i class="ph-bold ph-pencil-simple"></i>
+        <button onclick="openEditRestaurantModal()" class="p-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs text-brand-200 flex items-center gap-1 transition shrink-0" title="เปลี่ยนชื่อร้าน">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
           <span>เปลี่ยน</span>
         </button>
       </div>
@@ -147,12 +147,12 @@
     </div>
   </div>
 
-  <!-- EMPLOYEE IDENTITY & EXISTING ORDER STATUS (1 PERSON = 1 ITEM) -->
+  <!-- EMPLOYEE IDENTITY & CURRENT ORDER STATUS (1 PERSON = 1 ITEM) -->
   <div class="max-w-md mx-auto w-full px-4 pt-3">
     <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-xs">
       <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-100 text-xs">
         <span class="font-bold text-slate-800 flex items-center gap-1.5">
-          <i class="ph-fill ph-user-circle text-brand-600 text-base"></i>
+          <i data-lucide="user-circle" class="w-4 h-4 text-brand-600"></i>
           ชื่อผู้สั่ง (1 คน / 1 รายการ)
         </span>
         <span id="tgAutoDetected" class="text-[10px] text-slate-400">ระบุชื่อเพื่อสั่ง</span>
@@ -170,27 +170,27 @@
       </div>
 
       <!-- Current Ordered Item Card (If this employee already placed an order) -->
-      <div id="currentUserOrderCard" class="hidden mt-3 pt-3 border-t border-slate-100 bg-brand-50/70 border-brand-100 rounded-xl p-3">
-        <div class="flex items-start justify-between">
-          <div>
-            <div class="flex items-center gap-1.5">
+      <div id="currentUserOrderCard" class="hidden mt-3 pt-3 border-t border-slate-100 bg-brand-50/70 border border-brand-200/60 rounded-xl p-3">
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
               <span class="text-[10px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full">คุณสั่งแล้ว (1 รายการ)</span>
-              <span id="myOrderTimeText" class="text-[10px] text-slate-400">10:12 น.</span>
+              <span id="myOrderTimeText" class="text-[10px] text-slate-400 font-mono">10:12 น.</span>
             </div>
-            <div id="myOrderItemText" class="text-xs font-bold text-slate-800 mt-1">ข้าวมันไก่ตอน</div>
-            <div id="myOrderNoteText" class="text-[11px] text-slate-600 font-medium mt-0.5">ระบุ: ไม่เอาหนัง ขอแตงกวาเยอะๆ</div>
+            <div id="myOrderItemText" class="text-xs font-bold text-slate-800 mt-1 truncate">ข้าวมันไก่ตอน</div>
+            <div id="myOrderNoteText" class="text-[11px] text-slate-600 font-medium mt-0.5 leading-tight">ระบุ: ไม่เอาหนัง ขอแตงกวาเยอะๆ</div>
           </div>
-          <button onclick="cancelMyOrder()" class="text-rose-600 hover:text-rose-700 bg-white border border-rose-200 hover:bg-rose-50 text-[11px] font-bold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1 active:scale-95 shadow-2xs" title="ยกเลิกออเดอร์ของฉัน">
-            <i class="ph-bold ph-trash"></i>
+          <button onclick="cancelMyOrder()" class="text-rose-600 hover:text-rose-700 bg-white border border-rose-200 hover:bg-rose-50 text-[11px] font-bold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1 active:scale-95 shadow-2xs shrink-0" title="ยกเลิกออเดอร์ของฉัน">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             <span>ยกเลิก</span>
           </button>
         </div>
-        <p class="text-[10px] text-slate-400 mt-1.5">💡 หากต้องการเปลี่ยนเมนู ให้กดเลือกเมนูใหม่ด้านล่างเพื่อบันทึกแทนที่ได้ทันที</p>
+        <p class="text-[10px] text-slate-400 mt-1.5">💡 หากต้องการเปลี่ยนเมนู ให้แตะเมนูใหม่ด้านล่างเพื่อบันทึกแทนที่ได้ทันที</p>
       </div>
     </div>
   </div>
 
-  <!-- MENU LIST (NO CATEGORIES) -->
+  <!-- MENU LIST -->
   <main class="max-w-md mx-auto w-full px-4 pt-3 flex-1">
     <div class="flex items-center justify-between mb-2 px-1">
       <span class="text-xs font-bold text-slate-800" id="menuCountLabel">เมนูของร้าน (0)</span>
@@ -215,8 +215,8 @@
             <p class="text-[11px] text-slate-500 mt-0.5">เลือกตัวเลือกและรายละเอียด (1 คน 1 รายการ)</p>
           </div>
         </div>
-        <button onclick="closeCustomModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 text-base">
-          <i class="ph-bold ph-x"></i>
+        <button onclick="closeCustomModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
@@ -251,7 +251,7 @@
           <!-- Quick Chips -->
           <div class="flex flex-wrap gap-1.5 mt-2">
             <button type="button" onclick="appendQuickNote('ไม่เอากุนเชียง')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-lg transition">+ ไม่เอากุนเชียง</button>
-            <button type="button" onclick="appendQuickNote('แยกน้ำราด')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-lg transition">+ แยกน้ำราด</button>
+            <button type="button" onclick="appendQuickNote('แยกน้ำราด/แยกน้ำซุป')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-lg transition">+ แยกน้ำ</button>
             <button type="button" onclick="appendQuickNote('ไม่ใส่แตงกวา')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-lg transition">+ ไม่แตงกวา</button>
             <button type="button" onclick="appendQuickNote('ไม่ผัก/ไม่ต้นหอม')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-lg transition">+ ไม่ผัก</button>
             <button type="button" onclick="appendQuickNote('เผ็ดน้อย')" class="text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2.5 py-1 rounded-lg transition">+ เผ็ดน้อย</button>
@@ -265,7 +265,7 @@
           id="confirmOrderBtn"
           onclick="confirmSingleOrderSubmit()" 
           class="w-full py-3 bg-gradient-to-r from-brand-500 to-brand-600 text-white rounded-xl font-bold text-xs sm:text-sm shadow-md shadow-brand-500/30 flex items-center justify-center gap-2 active:scale-98 transition">
-          <i class="ph-bold ph-check-circle text-base"></i>
+          <i data-lucide="check-circle-2" class="w-4 h-4"></i>
           <span id="confirmOrderBtnText">ยืนยันสั่งรายการนี้ (1 อย่าง)</span>
         </button>
       </div>
@@ -276,8 +276,8 @@
   <!-- ORDER SUCCESS DIALOG -->
   <div id="successModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl flex flex-col text-center">
-      <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl mb-2.5">
-        <i class="ph-bold ph-check"></i>
+      <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2.5">
+        <i data-lucide="check" class="w-6 h-6"></i>
       </div>
 
       <h3 class="text-sm font-bold text-slate-800" id="successModalTitle">บันทึกออเดอร์ของคุณแล้ว!</h3>
@@ -291,7 +291,7 @@
         <button 
           onclick="copySingleOrderClipboard()" 
           class="w-full py-2.5 bg-slate-900 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-98 transition">
-          <i class="ph-bold ph-copy"></i>
+          <i data-lucide="copy" class="w-4 h-4"></i>
           <span id="copyBtnText">คัดลอกข้อความของฉัน</span>
         </button>
 
@@ -299,7 +299,7 @@
           id="btnTgSendData"
           onclick="sendOrderViaTgData()" 
           class="hidden w-full py-2.5 bg-tgblue-600 hover:bg-tgblue-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-98 transition">
-          <i class="ph-bold ph-paper-plane-tilt"></i>
+          <i data-lucide="send" class="w-4 h-4"></i>
           <span>ส่งข้อมูลกลับเข้า Telegram</span>
         </button>
 
@@ -319,13 +319,13 @@
       <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
         <div>
           <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-            <i class="ph-bold ph-receipt text-brand-600"></i>
+            <i data-lucide="receipt" class="w-4 h-4 text-brand-600"></i>
             สรุปรายการอาหาร
           </h3>
           <p id="summaryRestaurantSub" class="text-[11px] text-slate-500">รวมยอดส่งร้าน & ตรวจสอบรายชื่อ</p>
         </div>
-        <button onclick="toggleSummaryModal(false)" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 text-base">
-          <i class="ph-bold ph-x"></i>
+        <button onclick="toggleSummaryModal(false)" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
@@ -379,12 +379,12 @@
       <!-- Action Footer -->
       <div class="p-4 bg-slate-50 border-t border-slate-100 flex gap-2">
         <button onclick="copyMerchantSummaryText()" class="flex-1 py-3 bg-brand-600 hover:bg-brand-700 active:scale-98 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-sm">
-          <i class="ph-bold ph-copy"></i>
+          <i data-lucide="copy" class="w-4 h-4"></i>
           <span>คัดลอกข้อความส่งร้าน (Copy Text)</span>
         </button>
-        <button onclick="openClearDataConfirmModal()" class="py-3 px-3.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl font-semibold text-xs transition flex items-center gap-1" title="ล้างออเดอร์รอบนี้">
-          <i class="ph-bold ph-trash"></i>
-          <span>ล้างรอบนี้</span>
+        <button onclick="openClearDataConfirmModal()" class="py-3 px-3.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl font-semibold text-xs transition flex items-center gap-1 shrink-0" title="ล้างออเดอร์/เมนู">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+          <span>ล้างข้อมูล</span>
         </button>
       </div>
 
@@ -397,7 +397,7 @@
       <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-100">
         <h3 class="font-bold text-slate-800 text-sm">เปลี่ยนร้านประจำรอบนี้</h3>
         <button onclick="closeEditRestaurantModal()" class="text-slate-400 hover:text-slate-600">
-          <i class="ph-bold ph-x text-base"></i>
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
@@ -427,8 +427,8 @@
           <h3 id="menuEditorTitle" class="font-bold text-slate-800 text-sm">เพิ่มเมนูของร้านนี้</h3>
           <p class="text-[11px] text-slate-500">ใครก็สามารถเพิ่มหรือแก้ไขรายการเมนูของร้านได้แบบ Real-time</p>
         </div>
-        <button onclick="closeMenuEditorModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 text-base">
-          <i class="ph-bold ph-x"></i>
+        <button onclick="closeMenuEditorModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
@@ -458,7 +458,7 @@
 
       <div class="p-4 bg-slate-50 border-t border-slate-100 flex gap-2">
         <button id="btnDeleteMenu" onclick="deleteCurrentMenu()" class="hidden py-2.5 px-3 bg-rose-50 text-rose-600 rounded-xl font-bold text-xs hover:bg-rose-100 transition">
-          <i class="ph-bold ph-trash"></i>
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
         </button>
         <button onclick="saveMenuFromEditor()" class="flex-1 py-2.5 bg-brand-600 text-white rounded-xl font-bold text-xs shadow-md shadow-brand-600/30 active:scale-98 transition">
           บันทึกเมนู
@@ -472,11 +472,11 @@
     <div class="bg-white w-full max-w-sm rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <h3 class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-          <i class="ph-bold ph-gear-six text-brand-600"></i>
+          <i data-lucide="settings" class="w-4 h-4 text-brand-600"></i>
           ตั้งค่ารอบ & การเชื่อมต่อ
         </h3>
         <button onclick="toggleAdminPanel(false)" class="text-slate-400 hover:text-slate-600">
-          <i class="ph-bold ph-x text-base"></i>
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
@@ -504,15 +504,18 @@
           />
         </div>
 
-        <!-- Danger Zone: Clear Round -->
-        <div class="border border-rose-200 bg-rose-50/50 p-3 rounded-2xl">
-          <div class="flex items-center justify-between">
+        <!-- Danger Zone: Clear Menu & Round -->
+        <div class="border border-rose-200 bg-rose-50/50 p-3.5 rounded-2xl">
+          <div class="flex items-center justify-between gap-2">
             <div>
-              <div class="font-bold text-rose-800 text-xs">เคลียร์ข้อมูลรอบนี้</div>
-              <div class="text-[10px] text-rose-600">ล้างออเดอร์ของทุกคนเพื่อเริ่มรอบใหม่</div>
+              <div class="font-bold text-rose-800 text-xs flex items-center gap-1">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+                จัดการลบข้อมูล / เริ่มรอบใหม่
+              </div>
+              <div class="text-[10px] text-rose-600 mt-0.5">ลบเฉพาะออเดอร์ หรือล้างเมนูทิ้งเมื่อเปลี่ยนร้าน</div>
             </div>
-            <button onclick="openClearDataConfirmModal()" class="px-2.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-[11px] shadow-xs">
-              เคลียร์ข้อมูล
+            <button onclick="openClearDataConfirmModal()" class="px-2.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-[11px] shadow-xs shrink-0">
+              ล้างข้อมูล
             </button>
           </div>
         </div>
@@ -521,10 +524,10 @@
         <div class="border-t border-slate-100 pt-3">
           <div class="flex items-center justify-between mb-1.5">
             <span class="font-bold text-slate-700 text-xs flex items-center gap-1">
-              <i class="ph-fill ph-fire text-amber-500"></i>
+              <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i>
               ตั้งค่า Firebase Config
             </span>
-            <span id="cfgStatusBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">โหมดจำลอง (Local)</span>
+            <span id="cfgStatusBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium">โหมดจำลอง (Local)</span>
           </div>
           <p class="text-[10px] text-slate-400 mb-2 leading-relaxed">
             วาง JSON หรือ Object ของ Firebase Web Config ที่ได้จาก Firebase Console เพื่อซิงค์ข้อมูล Real-time ทุกคนบน GitHub Pages
@@ -552,19 +555,44 @@
     </div>
   </div>
 
-  <!-- SECURE CLEAR DATA PIN CONFIRMATION MODAL -->
+  <!-- SECURE CLEAR DATA MODAL WITH TARGET OPTIONS -->
   <div id="clearDataModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl flex flex-col text-center">
-      <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto text-xl mb-2.5">
-        <i class="ph-bold ph-warning-octagon"></i>
+      <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-2.5">
+        <i data-lucide="alert-octagon" class="w-6 h-6"></i>
       </div>
 
-      <h3 class="text-sm font-bold text-slate-800">ยืนยันการเคลียร์ข้อมูลรอบนี้?</h3>
+      <h3 class="text-sm font-bold text-slate-800">ยืนยันการเคลียร์ข้อมูล</h3>
       <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
-        ออเดอร์ของพนักงานทุกคนในฐานข้อมูลจะถูกลบทั้งหมดเพื่อเริ่มสั่งรอบใหม่ (ไม่สามารถกู้คืนได้)
+        เลือกขอบเขตข้อมูลที่ต้องการลบเพื่อเตรียมสั่งอาหารรอบใหม่
       </p>
 
-      <div class="my-3 text-left">
+      <!-- Selection Scope -->
+      <div class="text-left space-y-1.5 my-3">
+        <label class="flex items-center gap-2 p-2 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs">
+          <input type="radio" name="clearScope" value="orders" checked class="text-rose-600 focus:ring-rose-500">
+          <div>
+            <span class="font-bold text-slate-800">1. ลบเฉพาะออเดอร์</span>
+            <span class="block text-[10px] text-slate-500">สั่งร้านเดิม แต่เริ่มนับยอดใหม่ (เมนูเดิมยังอยู่)</span>
+          </div>
+        </label>
+        <label class="flex items-center gap-2 p-2 rounded-xl border border-rose-200 bg-rose-50/60 cursor-pointer text-xs">
+          <input type="radio" name="clearScope" value="menu_and_orders" class="text-rose-600 focus:ring-rose-500">
+          <div>
+            <span class="font-bold text-rose-800">2. ลบเมนูและออเดอร์ (เปลี่ยนร้านใหม่)</span>
+            <span class="block text-[10px] text-rose-600">ล้างเมนูร้านเก่าออกทั้งหมด พร้อมใส่เมนูของร้านใหม่</span>
+          </div>
+        </label>
+        <label class="flex items-center gap-2 p-2 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer text-xs">
+          <input type="radio" name="clearScope" value="all" class="text-rose-600 focus:ring-rose-500">
+          <div>
+            <span class="font-bold text-slate-800">3. ล้างทั้งหมดรวมชื่อร้าน</span>
+            <span class="block text-[10px] text-slate-500">รีเซ็ตชื่อร้าน รายการเมนู และออเดอร์ทั้งหมด</span>
+          </div>
+        </label>
+      </div>
+
+      <div class="text-left mb-3">
         <label class="block text-[11px] font-bold text-slate-600 mb-1">พิมพ์คำว่า <span class="text-rose-600 font-mono">CLEAR</span> หรือใส่รหัสยืนยัน (1234):</label>
         <input 
           type="text" 
@@ -579,7 +607,7 @@
           ยกเลิก
         </button>
         <button onclick="executeClearDatabase()" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition shadow-sm active:scale-98">
-          ลบข้อมูลทั้งหมด
+          ยืนยันการลบ
         </button>
       </div>
     </div>
@@ -587,7 +615,7 @@
 
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 text-white text-xs px-4 py-2.5 rounded-full shadow-xl pointer-events-none opacity-0 transition-opacity duration-300 flex items-center gap-2">
-    <i class="ph-bold ph-check text-emerald-400"></i>
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
     <span id="toastMsg">แจ้งเตือน</span>
   </div>
 
@@ -595,32 +623,13 @@
   <script>
     /**
      * =====================================================================
-     * 1. FIREBASE CONFIGURATION
+     * 1. CONFIGURATION & DEFAULTS
      * ---------------------------------------------------------------------
-     * สามารถใส่ Firebase Config ของคุณตรงนี้ก่อน Deploy ขึ้น GitHub Pages ได้เลย
-     * หรือจะเข้ามากรอกผ่านปุ่มรูปเฟืองในตัวแอปก็ได้เช่นกัน
+     * สามารถใส่ Firebase Web Config ตรงนี้ก่อน Deploy ขึ้น GitHub Pages ได้ทันที
+     * หรือจะเข้ามากรอกผ่านปุ่มรูปเฟือง (Settings) ในตัวแอปก็ได้เช่นกัน
      * =====================================================================
      */
-    // const HARDCODED_FIREBASE_CONFIG = null; 
-    /* ตัวอย่างเมื่อต้องการใส่ตรง:
-    const HARDCODED_FIREBASE_CONFIG = {
-      apiKey: "AIzaSyYourApiKeyHere",
-      authDomain: "your-project.firebaseapp.com",
-      projectId: "your-project",
-      storageBucket: "your-project.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef"
-    };
-    */
-    const HARDCODED_FIREBASE_CONFIG = {
-      apiKey: "AIzaSyCkOVdwJWojhg_k2D5PKPw-f4U0QIl1Ngo",
-      authDomain: "staff-food-order-app.firebaseapp.com",
-      projectId: "staff-food-order-app",
-      storageBucket: "staff-food-order-app.firebasestorage.app",
-      messagingSenderId: "481469158693",
-      appId: "1:481469158693:web:49acc11ec56bfde58776cc",
-      measurementId: "G-NLP53Z198E"
-    };
+    const HARDCODED_FIREBASE_CONFIG = null; 
 
     const DEFAULT_RESTAURANT = {
       name: 'ร้านข้าวมันไก่ & ข้าวหมูแดง แป๊ะฮง',
@@ -654,7 +663,7 @@
     // Global in-memory states (Synchronized with Firestore or LocalStorage)
     let restaurantInfo = { ...DEFAULT_RESTAURANT };
     let foodItems = [...DEFAULT_FOOD_ITEMS];
-    let allOrders = []; // Array of { empId, empName, time, item: { name, icon, variant, note } }
+    let allOrders = []; // Array of { id, empId, empName, time, item: { name, icon, variant, note } }
     let isStoreOpen = true;
     let storeSubtitle = 'ตัดรอบ 10:30 น.';
 
@@ -674,6 +683,12 @@
     let unsubOrders = null;
 
     const tg = window.Telegram?.WebApp;
+
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
 
     // --- 2. INITIALIZATION & TELEGRAM SETUP ---
     function initTelegram() {
@@ -696,7 +711,7 @@
             document.getElementById('empNameInput').value = existingName;
           }
 
-          document.getElementById('tgAutoDetected').innerHTML = `<i class="ph-bold ph-check text-brand-500"></i> @${user.username || user.first_name}`;
+          document.getElementById('tgAutoDetected').innerHTML = `<span class="text-brand-500 font-bold">@${user.username || user.first_name}</span>`;
           document.getElementById('btnTgSendData').classList.remove('hidden');
         }
       }
@@ -761,7 +776,7 @@
         }
       }
 
-      // Fallback: LocalStorage Mock Mode
+      // Fallback: LocalStorage Mode
       initFallbackLocalStorage();
     }
 
@@ -782,12 +797,11 @@
       document.getElementById('cfgStatusBadge').innerText = 'โหมดจำลอง (Local)';
       document.getElementById('cfgStatusBadge').className = 'text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold';
 
-      // Load from local storage
       const savedRest = localStorage.getItem('local_restaurant_info');
       if (savedRest) restaurantInfo = JSON.parse(savedRest);
 
       const savedMenus = localStorage.getItem('local_menu_items');
-      if (savedMenus) foodItems = JSON.parse(savedMenus);
+      if (savedMenus !== null) foodItems = JSON.parse(savedMenus);
 
       const savedOrders = localStorage.getItem('local_staff_orders');
       if (savedOrders) allOrders = JSON.parse(savedOrders);
@@ -805,7 +819,6 @@
     function bindFirestoreListeners() {
       if (!db) return;
 
-      // Unsubscribe old listeners if any
       if (unsubSettings) unsubSettings();
       if (unsubMenu) unsubMenu();
       if (unsubOrders) unsubOrders();
@@ -819,7 +832,6 @@
           if (data.isStoreOpen !== undefined) isStoreOpen = data.isStoreOpen;
           if (data.storeSubtitle !== undefined) storeSubtitle = data.storeSubtitle;
         } else {
-          // Initialize first time
           settingsRef.set({
             restaurant: DEFAULT_RESTAURANT,
             isStoreOpen: true,
@@ -833,15 +845,9 @@
       // 2. Menu Items collection
       const menuRef = db.collection('menu_items');
       unsubMenu = menuRef.onSnapshot(snapshot => {
-        if (snapshot.empty) {
-          // Seed defaults
-          DEFAULT_FOOD_ITEMS.forEach(it => menuRef.doc(it.id).set(it));
-          foodItems = [...DEFAULT_FOOD_ITEMS];
-        } else {
-          const items = [];
-          snapshot.forEach(d => items.push({ id: d.id, ...d.data() }));
-          foodItems = items;
-        }
+        const items = [];
+        snapshot.forEach(d => items.push({ id: d.id, ...d.data() }));
+        foodItems = items;
         renderMenu();
       }, err => console.warn('menu snapshot err', err));
 
@@ -865,6 +871,7 @@
       checkCurrentEmployeeOrder();
       updateAllOrdersBadge();
       renderMerchantSummary();
+      refreshIcons();
     }
 
     function renderRestaurantInfo() {
@@ -907,11 +914,16 @@
       if (foodItems.length === 0) {
         grid.innerHTML = `
           <div class="py-10 text-center text-slate-400 bg-white rounded-2xl border border-dashed border-slate-200 p-6">
-            <i class="ph-bold ph-fork-knife text-3xl mb-2 text-slate-300"></i>
+            <i data-lucide="utensils-crossed" class="w-8 h-8 mx-auto mb-2 text-slate-300"></i>
             <p class="text-xs">ยังไม่มีรายการเมนูสำหรับร้านนี้</p>
-            <button onclick="openMenuEditorModal()" class="mt-2 text-xs text-brand-600 font-bold underline">+ เพิ่มเมนูของร้าน</button>
+            <p class="text-[11px] text-slate-400 mt-0.5">กดปุ่มด้านล่างเพื่อเพิ่มเมนูของร้านนี้ได้ทันที</p>
+            <button onclick="openMenuEditorModal()" class="mt-3 px-3 py-1.5 bg-brand-50 text-brand-600 rounded-xl text-xs font-bold border border-brand-200 inline-flex items-center gap-1 active:scale-95 transition">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              เพิ่มเมนูของร้าน
+            </button>
           </div>
         `;
+        refreshIcons();
         return;
       }
 
@@ -926,7 +938,7 @@
                 <div class="flex items-center gap-2">
                   <h4 class="font-bold text-slate-800 text-xs sm:text-sm truncate">${item.name}</h4>
                   <button onclick="openMenuEditorModal('${item.id}')" class="text-slate-400 hover:text-slate-600 p-0.5" title="แก้ไขเมนู">
-                    <i class="ph-bold ph-pencil-simple text-xs"></i>
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                   </button>
                 </div>
                 <p class="text-[11px] text-slate-500 truncate mt-0.5">${item.desc || (variants.length ? variants.join(' / ') : 'พร้อมสั่ง')}</p>
@@ -941,15 +953,16 @@
                   ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
                   : 'bg-brand-600 hover:bg-brand-700 text-white active:scale-95 shadow-2xs'
               }">
-              <i class="ph-bold ph-check text-xs"></i>
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
               <span>เลือก</span>
             </button>
           </div>
         `;
       }).join('');
+      refreshIcons();
     }
 
-    // --- 6. EMPLOYEE IDENTIFICATION & ORDER STATUS ---
+    // --- 6. EMPLOYEE IDENTIFICATION & ORDER STATUS (1 PERSON = 1 ITEM) ---
     function handleUserIdentityChange() {
       const name = document.getElementById('empNameInput').value.trim();
       currentEmployeeName = name;
@@ -966,7 +979,6 @@
         return;
       }
 
-      // Check by employee ID first, or by exact matching employee name
       const existing = allOrders.find(o => 
         (o.empId && o.empId === currentEmployeeId) || 
         ((o.empName || '').trim().toLowerCase() === name)
@@ -989,6 +1001,7 @@
       } else {
         card.classList.add('hidden');
       }
+      refreshIcons();
     }
 
     async function cancelMyOrder() {
@@ -1054,6 +1067,7 @@
       const content = document.getElementById('customModalContent');
       modal.classList.remove('opacity-0', 'pointer-events-none');
       setTimeout(() => content.classList.remove('translate-y-full'), 10);
+      refreshIcons();
     }
 
     function renderVariationOptions(variants) {
@@ -1143,7 +1157,6 @@
         updatedAt: Date.now()
       };
 
-      // Determine document ID (use employee ID or sanitized name)
       const docId = currentEmployeeId || empName.replace(/[^a-zA-Z0-9_\u0E00-\u0E7F]/g, '_');
 
       if (isFirebaseReady && db) {
@@ -1171,7 +1184,6 @@
 
       closeCustomModal();
 
-      // Format Summary for clipboard preview
       const variantStr = newOrderItem.variant ? ` (${newOrderItem.variant})` : '';
       const noteStr = newOrderItem.note ? `\n   ↳ ระบุ: ${newOrderItem.note}` : '';
 
@@ -1185,6 +1197,7 @@
       latestSingleOrderSummary = summary;
       document.getElementById('orderSuccessPreview').innerText = summary;
       document.getElementById('successModal').classList.remove('opacity-0', 'pointer-events-none');
+      refreshIcons();
     }
 
     function copySingleOrderClipboard() {
@@ -1228,6 +1241,7 @@
       } else {
         modal.classList.add('opacity-0', 'pointer-events-none');
       }
+      refreshIcons();
     }
 
     function switchSummaryTab(tab) {
@@ -1248,6 +1262,7 @@
         staffView.classList.remove('hidden');
         groupedView.classList.add('hidden');
       }
+      refreshIcons();
     }
 
     function renderMerchantSummary() {
@@ -1321,11 +1336,12 @@
                 <div class="font-bold text-slate-800 text-xs">${idx + 1}. ${ord.empName}</div>
                 <div class="text-[11px] text-slate-600 mt-0.5">• ${it.name}${variant} ${note}</div>
               </div>
-              <span class="text-[10px] text-slate-400 shrink-0 ml-2">${ord.time || ''}</span>
+              <span class="text-[10px] text-slate-400 shrink-0 ml-2 font-mono">${ord.time || ''}</span>
             </div>
           `;
         }).join('');
       }
+      refreshIcons();
     }
 
     function copyMerchantSummaryText() {
@@ -1375,11 +1391,12 @@
       showToast('คัดลอกสรุปส่งร้านเรียบร้อยแล้ว');
     }
 
-    // --- 10. CLEAR DATABASE (SECURE PIN & BATCH DELETION) ---
+    // --- 10. CLEAR DATABASE (SCOPE-BASED DELETION & PIN) ---
     function openClearDataConfirmModal() {
       triggerHaptic('warning');
       document.getElementById('clearPinInput').value = '';
       document.getElementById('clearDataModal').classList.remove('opacity-0', 'pointer-events-none');
+      refreshIcons();
     }
 
     function closeClearDataModal() {
@@ -1394,29 +1411,74 @@
         return;
       }
 
+      const scopeEl = document.querySelector('input[name="clearScope"]:checked');
+      const scope = scopeEl ? scopeEl.value : 'orders';
+
       triggerHaptic('success');
 
       if (isFirebaseReady && db) {
         try {
-          // Batch delete all documents in orders collection
-          const snapshot = await db.collection('orders').get();
           const batch = db.batch();
-          snapshot.docs.forEach(doc => {
-            batch.delete(doc.ref);
-          });
+
+          // 1. Delete all orders in collection
+          const ordersSnap = await db.collection('orders').get();
+          ordersSnap.docs.forEach(doc => batch.delete(doc.ref));
+
+          // 2. If scope includes menu deletion
+          if (scope === 'menu_and_orders' || scope === 'all') {
+            const menuSnap = await db.collection('menu_items').get();
+            menuSnap.docs.forEach(doc => batch.delete(doc.ref));
+          }
+
+          // 3. If scope includes resetting restaurant info
+          if (scope === 'all') {
+            const settingsRef = db.collection('app_settings').doc('round_state');
+            batch.set(settingsRef, {
+              restaurant: { name: 'ระบุชื่อร้านใหม่', note: 'สั่งรวมร้านเดียว' },
+              isStoreOpen: true,
+              storeSubtitle: 'ตัดรอบ 10:30 น.'
+            }, { merge: true });
+          }
+
           await batch.commit();
-          showToast('เคลียร์ข้อมูลใน Firebase เรียบร้อยแล้ว');
+
+          if (scope === 'menu_and_orders') {
+            showToast('ล้างเมนูและออเดอร์แล้ว พร้อมใส่เมนูร้านใหม่');
+          } else if (scope === 'all') {
+            showToast('รีเซ็ตข้อมูลทั้งหมดเรียบร้อยแล้ว');
+          } else {
+            showToast('เคลียร์ออเดอร์ใน Firebase เรียบร้อย');
+          }
         } catch (e) {
-          console.error('Error clearing Firestore orders:', e);
+          console.error('Error clearing Firestore:', e);
           showToast('เกิดข้อผิดพลาดในการลบข้อมูล');
         }
       } else {
+        // LocalStorage Fallback
         allOrders = [];
         localStorage.removeItem('local_staff_orders');
+
+        if (scope === 'menu_and_orders' || scope === 'all') {
+          foodItems = [];
+          localStorage.setItem('local_menu_items', JSON.stringify([]));
+        }
+
+        if (scope === 'all') {
+          restaurantInfo = { name: 'ระบุชื่อร้านใหม่', note: 'สั่งรวมร้านเดียว' };
+          localStorage.setItem('local_restaurant_info', JSON.stringify(restaurantInfo));
+          renderRestaurantInfo();
+        }
+
         checkCurrentEmployeeOrder();
         updateAllOrdersBadge();
+        renderMenu();
         renderMerchantSummary();
-        showToast('เคลียร์ข้อมูลรอบนี้เรียบร้อย');
+
+        if (scope === 'menu_and_orders') {
+          showToast('ล้างเมนูและออเดอร์แล้ว พร้อมใส่เมนูร้านใหม่');
+        } else {
+          showToast('เคลียร์ข้อมูลรอบนี้เรียบร้อย');
+        }
       }
 
       closeClearDataModal();
@@ -1430,6 +1492,7 @@
       document.getElementById('editRestNameInput').value = restaurantInfo.name || '';
       document.getElementById('editRestNoteInput').value = restaurantInfo.note || '';
       document.getElementById('restaurantEditModal').classList.remove('opacity-0', 'pointer-events-none');
+      refreshIcons();
     }
 
     function closeEditRestaurantModal() {
@@ -1504,6 +1567,7 @@
       const modal = document.getElementById('adminModal');
       if (show) modal.classList.remove('opacity-0', 'pointer-events-none');
       else modal.classList.add('opacity-0', 'pointer-events-none');
+      refreshIcons();
     }
 
     // --- 12. MENU EDITOR (COLLABORATIVE ADD / EDIT / DELETE) ---
@@ -1534,6 +1598,7 @@
       }
 
       document.getElementById('menuEditorModal').classList.remove('opacity-0', 'pointer-events-none');
+      refreshIcons();
     }
 
     function closeMenuEditorModal() {
@@ -1613,7 +1678,6 @@
         if (raw.startsWith('{')) {
           parsed = JSON.parse(raw);
         } else {
-          // Attempt simple eval safely for JS object syntax
           const cleaned = raw.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
           parsed = JSON.parse(cleaned);
         }
@@ -1660,6 +1724,7 @@
     window.onload = function() {
       initTelegram();
       initDatabase();
+      refreshIcons();
     };
   </script>
 </body>
