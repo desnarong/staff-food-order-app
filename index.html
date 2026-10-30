@@ -225,7 +225,7 @@ function render() {
       : `<div class="empty"><b>คุณยังไม่ได้ตั้งคำถาม</b>ตั้งคำถามแล้วระบบจะเปิดให้คนตอบทันที</div>`;
   app.innerHTML = `
     <header>
-      <div><h1>ตอบถูก รับเงิน</h1><p class="sub">ตอบให้ตรงเป๊ะ แล้วรับเงินผ่านพร้อมเพย์</p></div>
+      <div><h1>ตอบถูก รับเงิน</h1><p class="sub">ตอบให้ตรงเป๊ะ แล้วรับเงินผ่านพร้อมเพย์ หรือทรูมันนี่</p></div>
       <div class="avatar" aria-hidden="true">${initial}</div>
     </header>
     <div class="tabs" role="tablist">
@@ -293,7 +293,7 @@ async function answerSheet(q) {
     <h2>${esc(q.text)}</h2>
     <p class="sub">ตอบถูกรับ <b style="color:var(--gold)">฿${fmt(q.amountEach)}</b> · เหลือ ${q.winnerLimit - q.winnersCount} จาก ${q.winnerLimit} สิทธิ์</p>
     <div class="field"><label for="a-name">ชื่อ</label><input id="a-name" autocomplete="name" value="${esc(me.name)}"></div>
-    <div class="field"><label for="a-pp">พร้อมเพย์</label><input id="a-pp" inputmode="numeric" autocomplete="off" placeholder="เบอร์มือถือ 10 หลัก หรือเลขบัตร 13 หลัก">
+    <div class="field"><label for="a-pp">พร้อมเพย์ หรือ ทรูมันนี่ (บัญชีธนาคาร อดนะ!)</label><input id="a-pp" inputmode="numeric" autocomplete="off" placeholder="เบอร์มือถือ 10 หลัก หรือเลขบัตร 13 หลัก">
       <small>ใช้สำหรับรับเงินเท่านั้น ผู้ตั้งคำถามจะเห็นเฉพาะคนที่ตอบถูก</small></div>
     <div class="field"><label for="a-ans">คำตอบ</label><input id="a-ans" autocomplete="off" placeholder="พิมพ์คำตอบของคุณ"></div>
     <div class="actions"><button class="btn" id="a-ok">ส่งคำตอบ</button><button class="btn ghost" data-action="close">ปิด</button></div>`,
